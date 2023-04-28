@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: monitoring-prometheus-server
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: /mnt/monitoring-prometheus-server
+  claimRef:
+    namespace: monitoring
+    name: monitoring-prometheus-server
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - worker-0
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: storage-monitoring-alertmanager-0
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  local:
+    path: /mnt/storage-monitoring-alertmanager-0
+  claimRef:
+    namespace: monitoring
+    name: storage-monitoring-alertmanager-0
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - worker-0
